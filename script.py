@@ -13,21 +13,23 @@ from PIL import Image
 
 def transform(filename):
     p = Path(filename)
-    img = Image.open(filename)    
+    img = Image.open(p)    
+
+    # square based on smaller dimension
     SIZE = min(img.size)
-    RESIZE_FACTOR = 4
-    NEW_SIZE = SIZE // RESIZE_FACTOR
-
-
     squared = img.crop((0,0,SIZE,SIZE))
+
+    # resize to save a bit of space 
+    NEW_SIZE = SIZE // 4
     resized = squared.resize((NEW_SIZE, NEW_SIZE))
 
+    # create new image with 3:2 dimensions, white background
     WIDTH = NEW_SIZE * 5
-    HEIGHT = WIDTH * 2//3
+    HEIGHT = WIDTH * 2 // 3
 
     new = Image.new("RGBA", (WIDTH, HEIGHT), color="white")
 
-    for row in range(0,3):
+    for row in range(3):
         for column in range(5):
             new.alpha_composite(resized, (column*NEW_SIZE, row*NEW_SIZE))
 
