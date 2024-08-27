@@ -13,13 +13,13 @@ from PIL import Image
 
 def transform(filename):
     p = Path(filename)
-    img = Image.open(p)    
+    img = Image.open(p)
 
     # square based on smaller dimension
     SIZE = min(img.size)
-    squared = img.crop((0,0,SIZE,SIZE))
+    squared = img.crop((0, 0, SIZE, SIZE))
 
-    # resize to save a bit of space 
+    # resize to save a bit of space
     NEW_SIZE = SIZE // 4
     resized = squared.resize((NEW_SIZE, NEW_SIZE))
 
@@ -31,7 +31,7 @@ def transform(filename):
 
     for row in range(3):
         for column in range(5):
-            new.alpha_composite(resized, (column*NEW_SIZE, row*NEW_SIZE))
+            new.alpha_composite(resized, (column * NEW_SIZE, row * NEW_SIZE))
 
     new.save(f"transformed_{p.name}")
 
